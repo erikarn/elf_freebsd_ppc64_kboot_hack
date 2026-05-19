@@ -46,7 +46,8 @@ int main(int argc, const char *argv[])
         err(127, "%s: mmap", __func__);
     }
 
-    phdr = find_phdr(mem, st.st_size, PT_PHDR);
+    // The ppc64 kernels use PT_LOAD, not PT_PHDR
+    phdr = find_phdr(mem, st.st_size, PT_LOAD);
     if (phdr == NULL) {
         printf("Couldn't find PT_PHDR!\n");
         exit(1);
