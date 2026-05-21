@@ -11,6 +11,14 @@ However, the fix never made it into a subsequent boot firmware release.
 This means that the latest boot firmware has a regression that prevents
 FreeBSD from booting.
 
+## How do I know if I need this?
+
+If you boot a 15.0 or 16.x snapshot image and it reboots after kexec
+rather than starting the kernel, chances are you need this.
+
+(Yes, TODO item here is to get the known good and known not good firmware
+versions; I'll do that when I reboot a broken firmware box.)
+
 ## What's the cause?
 
 The diff explains it all - the entry point math is just plain wrong,
@@ -40,6 +48,14 @@ entry: 0
 
 The fix is to offset the entry address by the virtual address.
 It's dirty, but it results in a booting kernel.
+
+## Should I run this regardless of POWER8/POWER9 ?
+
+No! Only run this for kernels that don't boot on the last firmware
+version on the OpenPower POWER8/POWER9 boxes.  The earlier firmware
+works fine and the Raptor Engineering POWER9 boot firmware works
+fine.  If you run this tool to adjust the kernel entry point address
+on working firmware it will /also stop working/ . You've been warned!
 
 ## How do you use this tool?
 
